@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background2">
+
+    <Button
+        android:id="@+id/button_play"
+        android:layout_width="150sp"
+        android:layout_height="75sp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/bubblegum_sans"
+        android:background="@drawable/button"
+        android:text="@string/play"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/best_score_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50sp"
+        android:fontFamily="@font/bubblegum_sans"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        tools:text="Best score: 100" />
+
+    <TextView
+        android:id="@+id/outtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40sp"
+        tools:text="You lose :)"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"/>
+
+
+</RelativeLayout>
