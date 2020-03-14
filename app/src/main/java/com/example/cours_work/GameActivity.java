@@ -22,7 +22,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     GameSurface surf;
     Timer t;
-    MediaPlayer mPlayer;
+    //MediaPlayer mPlayer;
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometerSensor;
@@ -38,8 +38,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_game);
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        mPlayer = MediaPlayer.create(this, R.raw.hotlinemiamicrystals);
-        mPlayer.start();
+       // mPlayer = MediaPlayer.create(this, R.raw.hotlinemiamicrystals);
+       // mPlayer.start();
 
         surf = new GameSurface(this);
         setContentView(surf);
@@ -62,7 +62,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onPause() {
         super.onPause();
-        mPlayer.pause();
+        //mPlayer.pause();
         mSensorManager.unregisterListener(this);
         t.cancel();
     }
@@ -70,7 +70,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        mPlayer.start();
+       //mPlayer.start();
 
     }
 
@@ -121,7 +121,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void Step() {
-        winner = !surf.mBot.nextStep();
+        winner = !surf.mBot.Step();
         if (winner || surf.mBot.Score ==  200 ||!surf.mBot.Alive() || surf.mBot.botScore == 200) {
             if(winner || surf.mBot.botScore == 200){
                 MainActivity.OUT = "You lose! :)";
@@ -134,7 +134,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
             mSensorManager.unregisterListener(this);
             t.cancel();
-            mPlayer.stop();
+           //mPlayer.stop();
             this.finish();
         }
     }

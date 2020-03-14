@@ -11,131 +11,168 @@ public class SnakeGame extends GameMap{
     final static public int DOWN = 3;
     final static public int LEFT = 4;
 
+    int headX,headY;
+
     public int Score = 0;
 
-    private ArrayList<position> mSnakeArr = new ArrayList<position>();
+    private ArrayList<position> snakeArr = new ArrayList<position>();
 
-    private static int mDirection;
+    private static int Direction;
     private int colGrowing = 1;
     private int isGrowing = 0;
 
     SnakeGame(){
-        mDirection = RIGHT;
-        mSnakeArr.add(new position(6,7));
-        mSnakeArr.add(new position(7,7));
-        mSnakeArr.add(new position(8,7));
+        Direction = RIGHT;
+        snakeArr.add(new position(6,7));
+        snakeArr.add(new position(7,7));
+        snakeArr.add(new position(8,7));
     }
 
-    public boolean nextStep(){
-        switch (mDirection) {
-            case UP:
-                int nextX = mSnakeArr.get(mSnakeArr.size() - 1).x;
-                int nextY = mSnakeArr.get(mSnakeArr.size() - 1).y - 1;
+    public boolean Step(){
 
-                if ((nextY >= 0) && mField[nextX][nextY] == 0) {
+        headX = getSnake().get(getSnakeSize()-1).x;
+        headY = getSnake().get(getSnakeSize()-1).y;
+
+        switch (getDirection()) {
+
+            case UP:
+                int nextX = snakeArr.get(snakeArr.size() - 1).x;
+                int nextY = snakeArr.get(snakeArr.size() - 1).y - 1;
+
+
+                if(headY >= 0 && nextY != -1) {
+                    if (mField[nextX][nextY] == 1) {
+                        return false;
+                    }
+                    if (nextX == snakeArr.get(snakeArr.size() - 2).x && nextY == snakeArr.get(snakeArr.size() - 2).y) {
+                        return true;
+                    }else if(mField[nextX][nextY] == -1 || mField[nextX][nextY] == -2){
+                        return false;
+                    }
+
+                    if (headX == fruitX && headY == fruitY) {
+                        isGrowing += colGrowing;
+                        Score += 10;
+                        addFruite();
+                        return true;
+                    }
+
                     if (isGrowing > 0) {
                         isGrowing--;
                     } else {
-                        mField[mSnakeArr.get(0).x][mSnakeArr.get(0).y] = 0;
-                        mSnakeArr.remove(0);
+                        mField[snakeArr.get(0).x][snakeArr.get(0).y] = 0;
+                        snakeArr.remove(0);
                     }
-                    mSnakeArr.add(new position(nextX, nextY));
+                    snakeArr.add(new position(nextX, nextY));
                     mField[nextX][nextY] = -1;
+
                     return true;
-                } else if((nextY >= 0) && mField[nextX][nextY] == 1){
-                    return false;
-                } else if((nextY >= 0) && mField[nextX][nextY] > 1){
-                    isGrowing += colGrowing;
-                    Score += 10;
-                    mField[nextX][nextY] = 0;
-                    addFruite();
-                    return true;
-                } else if(nextY >= 0 && mSnakeArr.get(mSnakeArr.size() - 2).x == nextX &&  mSnakeArr.get(mSnakeArr.size() - 2).y == nextY){
-                return true;
-            }else {
+                }else{
                     return false;
                 }
 
             case RIGHT:
-                nextX = mSnakeArr.get(mSnakeArr.size() - 1).x + 1;
-                nextY = mSnakeArr.get(mSnakeArr.size() - 1).y;
+                nextX = snakeArr.get(snakeArr.size() - 1).x + 1;
+                nextY = snakeArr.get(snakeArr.size() - 1).y;
 
-                if ((nextX < mFieldX) && mField[nextX][nextY] == 0) {
-                    if (isGrowing > 0) {
-                        isGrowing--;
-                    } else {
-                        mField[mSnakeArr.get(0).x][mSnakeArr.get(0).y] = 0;
-                        mSnakeArr.remove(0);
+                if(headX < mFieldX && nextX != 18) {
+                    if (mField[nextX][nextY] == 1) {
+                        return false;
                     }
-                    mSnakeArr.add(new position(nextX, nextY));
-                    mField[nextX][nextY] = -1;
+                    if (nextX == snakeArr.get(snakeArr.size() - 2).x && nextY == snakeArr.get(snakeArr.size() - 2).y) {
+                        return true;
+                    }else if(mField[nextX][nextY] == -1 || mField[nextX][nextY] == -2){
+                        return false;
+                    }
+
+                    if (headX == fruitX && headY == fruitY) {
+                        isGrowing += colGrowing;
+                        Score += 10;
+                        addFruite();
+                        return true;
+                    }
+
+                        if (isGrowing > 0) {
+                            isGrowing--;
+                        } else {
+                            mField[snakeArr.get(0).x][snakeArr.get(0).y] = 0;
+                            snakeArr.remove(0);
+                        }
+                        snakeArr.add(new position(nextX, nextY));
+                        mField[nextX][nextY] = -1;
+
                     return true;
-                } else if ((nextX < mFieldX) && mField[nextX][nextY] == 1) {
-                    return false;
-                } else if ((nextX < mFieldX) && mField[nextX][nextY] > 1) {
-                    isGrowing += colGrowing;
-                    Score += 10;
-                    mField[nextX][nextY] = 0;
-                    addFruite();
-                    return true;
-                } else if(nextX < mFieldX && mSnakeArr.get(mSnakeArr.size() - 2).x == nextX &&  mSnakeArr.get(mSnakeArr.size() - 2).y == nextY){
-                    return true;
-                }else {
+                }else{
                     return false;
                 }
 
             case DOWN:
-                nextX = mSnakeArr.get(mSnakeArr.size() - 1).x;
-                nextY = mSnakeArr.get(mSnakeArr.size() - 1).y + 1;
+                nextX = snakeArr.get(snakeArr.size() - 1).x;
+                nextY = snakeArr.get(snakeArr.size() - 1).y + 1;
 
-                if ((nextY < mFieldY) && mField[nextX][nextY] == 0) {
-                    if (isGrowing > 0) {
-                        isGrowing--;
-                    } else {
-                        mField[mSnakeArr.get(0).x][mSnakeArr.get(0).y] = 0;
-                        mSnakeArr.remove(0);
+                if(headY < mFieldY && nextY != 32) {
+                    if (mField[nextX][nextY] == 1) {
+                        return false;
                     }
-                    mSnakeArr.add(new position(nextX, nextY));
-                    mField[nextX][nextY] = -1;
+                    if (nextX == snakeArr.get(snakeArr.size() - 2).x && nextY == snakeArr.get(snakeArr.size() - 2).y) {
+                        return true;
+                    }else if(mField[nextX][nextY] == -1 || mField[nextX][nextY] == -2){
+                        return false;
+                    }
+
+                    if (headX == fruitX && headY == fruitY) {
+                        isGrowing += colGrowing;
+                        Score += 10;
+                        addFruite();
+                        return true;
+                    }
+
+                        if (isGrowing > 0) {
+                            isGrowing--;
+                        } else {
+                            mField[snakeArr.get(0).x][snakeArr.get(0).y] = 0;
+                            snakeArr.remove(0);
+                        }
+                        snakeArr.add(new position(nextX, nextY));
+                        mField[nextX][nextY] = -1;
+
                     return true;
-                } else if ((nextY < mFieldY) && mField[nextX][nextY] == 1) {
-                    return false;
-                } else if ((nextY < mFieldY) && mField[nextX][nextY] > 1) {
-                    isGrowing += colGrowing;
-                    Score += 10;
-                    mField[nextX][nextY] = 0;
-                    addFruite();
-                    return true;
-                } else if(nextY < mFieldY && mSnakeArr.get(mSnakeArr.size() - 2).x == nextX &&  mSnakeArr.get(mSnakeArr.size() - 2).y == nextY){
-                    return true;
-                }else {
+                }else{
                     return false;
                 }
-            case LEFT:
-                nextX = mSnakeArr.get(mSnakeArr.size() - 1).x - 1;
-                nextY = mSnakeArr.get(mSnakeArr.size() - 1).y;
 
-                if ((nextX >= 0) && mField[nextX][nextY] == 0) {
+            case LEFT:
+                nextX = snakeArr.get(snakeArr.size() - 1).x - 1;
+                nextY = snakeArr.get(snakeArr.size() - 1).y;
+
+                if(headX >= 0 && nextX != -1) {
+                    if (mField[nextX][nextY] == 1) {
+                        return false;
+                    }
+                    if (nextX == snakeArr.get(snakeArr.size() - 2).x && nextY == snakeArr.get(snakeArr.size() - 2).y) {
+                        return true;
+                    }else if(mField[nextX][nextY] == -1 || mField[nextX][nextY] == -2){
+                        return false;
+                    }
+
+                    if (headX == fruitX && headY == fruitY) {
+                        isGrowing += colGrowing;
+                        Score += 10;
+                        addFruite();
+                        return true;
+                    }
+
                     if (isGrowing > 0) {
                         isGrowing--;
                     } else {
-                        mField[mSnakeArr.get(0).x][mSnakeArr.get(0).y] = 0;
-                        mSnakeArr.remove(0);
+                        mField[snakeArr.get(0).x][snakeArr.get(0).y] = 0;
+                        snakeArr.remove(0);
                     }
-                    mSnakeArr.add(new position(nextX, nextY));
+                    snakeArr.add(new position(nextX, nextY));
                     mField[nextX][nextY] = -1;
+
                     return true;
-                } else if ((nextX >= 0) && mField[nextX][nextY] == 1) {
-                    return false;
-                } else if ((nextX >= 0) && mField[nextX][nextY] > 1) {
-                    isGrowing += colGrowing;
-                    Score += 10;
-                    mField[nextX][nextY] = 0;
-                    addFruite();
-                    return true;
-                } else if(nextX >= 0 && mSnakeArr.get(mSnakeArr.size() - 2).x == nextX &&  mSnakeArr.get(mSnakeArr.size() - 2).y == nextY){
-                    return true;
-                }else {
+                }else{
                     return false;
                 }
         }
@@ -143,19 +180,19 @@ public class SnakeGame extends GameMap{
     }
 
     public void setDirection(int direction) {
-            SnakeGame.mDirection = direction;
+            SnakeGame.Direction = direction;
     }
 
     public int getDirection(){
-        return mDirection;
+        return Direction;
     }
 
     public int getSnakeSize() {
-        return  mSnakeArr.size();
+        return  snakeArr.size();
     }
 
-    public ArrayList<position> getmSnake() {
-        return mSnakeArr;
+    public ArrayList<position> getSnake() {
+        return snakeArr;
     }
 
 }

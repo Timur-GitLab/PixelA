@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class SnakeBot extends SnakeGame{
 
-    int headX, headY;
+    int headBotX, headBotY;
 
     private ArrayList<position> botSnakeArr = new ArrayList<position>();
     private ArrayList<position> fastWay = new ArrayList<position>();
@@ -27,30 +27,29 @@ public class SnakeBot extends SnakeGame{
 
     public boolean Alive(){
 
-        headX = getBotSnake().get(getBotSnakeSize()-1).x;
-        headY = getBotSnake().get(getBotSnakeSize()-1).y;
+        headBotX = getBotSnake().get(getBotSnakeSize()-1).x;
+        headBotY = getBotSnake().get(getBotSnakeSize()-1).y;
 
         if(flag1) {
             fastWay.clear();
-            WavePropagation(headX, headY);
+            WavePropagation(headBotX, headBotY);
             numOfnum = fastWay.size();
             flag1 = false;
         }else {
             for (int i = 0; i < fastWay.size();i++) {
                 if (mField[fastWay.get(i).x][fastWay.get(i).y] == -1) {
                     fastWay.clear();
-                    WavePropagation(headX, headY);
+                    WavePropagation(headBotX, headBotY);
                     numOfnum = fastWay.size();
                 }
             }
         }
 
         numOfnum--;
-        if ((headX >= 0 && headY >= 0) && (mField[headX][headY] == -2)) {
-            if((headX >= 0 && headY >= 0) && headX == fruitX && headY == fruitY) {
+        if ((headBotX >= 0 && headBotY >= 0) && (mField[headBotX][headBotY] == -2)) {
+            if((headBotX >= 0 && headBotY >= 0) && headBotX == fruitX && headBotY == fruitY) {
                 isGrowing2 += colGrowingBot ;
                 botScore += 10;
-                mField[headX][headY] = -2;
                 flag1 = true;
                 addFruite();
                 return true;
@@ -64,7 +63,7 @@ public class SnakeBot extends SnakeGame{
             botSnakeArr.add(new position(fastWay.get(numOfnum).x, fastWay.get(numOfnum).y));
             mField[fastWay.get(numOfnum).x][fastWay.get(numOfnum).y] = -2;
             return true;
-        } else if((headX >= 0 && headY >= 0) && mField[headX][headY] == 1){
+        } else if((headBotX >= 0 && headBotY >= 0) && mField[headBotX][headBotY] == 1){
             return false;
         } else {
             return false;

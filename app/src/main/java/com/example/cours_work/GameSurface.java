@@ -76,12 +76,12 @@ public class GameSurface extends SurfaceView {
 
 
         for (int i = 0; i < mBot.getSnakeSize(); i++) {
-            c.drawBitmap(body, mBot.getmSnake().get(i).x * mx, mBot.getmSnake().get(i).y * my, new Paint());
+            c.drawBitmap(body, mBot.getSnake().get(i).x * mx, mBot.getSnake().get(i).y * my, new Paint());
             if (i == 0) {
-                c.drawBitmap(till, mBot.getmSnake().get(i).x * mx, mBot.getmSnake().get(i).y * my, new Paint());
+                c.drawBitmap(till, mBot.getSnake().get(i).x * mx, mBot.getSnake().get(i).y * my, new Paint());
             }
             if (i == mBot.getSnakeSize() - 1) {
-                c.drawBitmap(head, mBot.getmSnake().get(i).x * mx, mBot.getmSnake().get(i).y * my, new Paint());
+                c.drawBitmap(head, mBot.getSnake().get(i).x * mx, mBot.getSnake().get(i).y * my, new Paint());
             }
         }
 
